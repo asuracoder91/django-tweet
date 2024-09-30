@@ -1,8 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Tweet
-from .models import Like
+from .models import Tweet, Like
 
 
 @admin.register(Tweet)
@@ -10,6 +9,7 @@ class TweetAdmin(admin.ModelAdmin):
     list_display = (
         "payload",
         "user",
+        "like_count",
         "created_at",
         "updated_at",
     )
