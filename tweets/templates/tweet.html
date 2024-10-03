@@ -1,0 +1,7 @@
+{% if not not_found %}
+<h1>{{tweet}}</h1>
+<h2>{{tweet.payload}}</h2>
+<h3>Likes: {{tweet.like_count}}</h3>
+{% else %}
+<h2>page not found</h2>
+{% endif %}
