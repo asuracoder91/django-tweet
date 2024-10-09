@@ -12,6 +12,7 @@ class Tweet(CommonModel):
     def __str__(self):
         return f"[{self.user}]{self.payload}"
 
+    @property
     def like_count(self):
         return self.likes.count()
 

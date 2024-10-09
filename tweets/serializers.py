@@ -1,15 +1,29 @@
 from rest_framework import serializers
+from .models import Tweet
+from users.models import User
 
 
-class TweetSerializer(serializers.Serializer):
-    pk = serializers.IntegerField(
+class TweetSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    like_count = serializers.IntegerField(
         read_only=True,
     )
-    payload = serializers.CharField(
-        max_length=180,
-    )
-    user = serializers.CharField(
-        max_length=150,
-        read_only=True,
-    )
-    created_at = serializers.DateTimeField()
+
+    class Meta:
+        model = Tweet
+        fields = ["pk", "payload", "user", "like_count", "created_at", "updated_at"]
+
+
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ["pk", "username", "password", "name", "avatar", "gender"]
+
+    def create(self, validated_data):
+        password = validated_data.pop("password")
+        user = User(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user

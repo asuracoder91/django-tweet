@@ -26,22 +26,29 @@ class ElonMuskFilter(admin.SimpleListFilter):
 
 @admin.register(Tweet)
 class TweetAdmin(admin.ModelAdmin):
+
     list_display = (
         "payload",
         "user",
-        "like_count",
+        "count_of_like",
         "created_at",
         "updated_at",
     )
 
     list_filter = (
-        ElonMuskFilter,
         "created_at",
+        ElonMuskFilter,
     )
+
     search_fields = (
-        "payload",
         "user__username",
+        "payload",
     )
+
+    def count_of_like(self, obj):
+        return obj.like_count()
+
+    count_of_like.short_description = "Like Count"
 
 
 @admin.register(Like)
